@@ -122,15 +122,16 @@ class CsharpAssessment
         dogList.Add(new Dog("Milo", 2, "Mutt"));
 
         dogList.ForEach(dog => dog.OutputProps()); // output each dogs props
-        Console.WriteLine($"Oldest dog : {OldestDog(dogList)}"); // display oldest
+        Console.WriteLine($"Oldest dog : {OldestDog(dogList).name}"); // display oldest
         FilterByBreed(dogList); // output filtered list
         OrderDogs(dogList); // output ordered list
         Console.WriteLine($"Average dog age : {AverageAge(dogList)}"); // output average age
     }
     public Dog OldestDog(List<Dog> dogs)
     {
-        Dog oldestDog = dogs.Max(); // LINQ Max
-        return oldestDog;
+        int maxAge = dogs.Max(dog => dog.age); // LINQ Max
+        List<Dog> oldestDog = dogs.Where(dog => dog.age == maxAge).ToList();
+        return oldestDog[0];
     }
     public void FilterByBreed(List<Dog> dogs)
     {
@@ -139,7 +140,7 @@ class CsharpAssessment
     }
     public void OrderDogs(List<Dog> dogs)
     {
-        List<Dog> ordered = dogs.OrderBy(dog => dog.breed).ToList().OrderBy(dog => dog.age).ToList(); // LINQ ordered by breed and age
+        List<Dog> ordered = dogs.OrderBy(dog => dog.breed).OrderBy(dog => dog.age).ToList(); // LINQ ordered by breed and age
         ordered.ForEach(dog => dog.OutputProps());
     }
     public double AverageAge(List<Dog> dogs)
